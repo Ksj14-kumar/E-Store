@@ -1,5 +1,5 @@
 import React from 'react'
-import { ColorRing, Oval } from 'react-loader-spinner'
+import { ColorRing, Oval, RotatingLines } from 'react-loader-spinner'
 type propType = {
     width: number,
     height: number
@@ -34,4 +34,19 @@ export function OvalLoader({ h, w }: props): JSX.Element {
         strokeWidth={2}
         strokeWidthSecondary={2}
     />
+}
+export function ComponentLoader() {
+    return (
+        <>
+            <div className="loader flex justify-center items-center h-[calc(100vh-4rem)]">
+                <RotatingLines
+                    strokeColor="blue"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="60"
+                    visible={true}
+                />
+            </div>
+        </>
+    )
 }

@@ -153,12 +153,11 @@ function Info() {
         }
     }
     return (
-        // h-[calc(100vh-3.6rem)]
-        <div className="right_side flex-[9] bg-[#bbcade] rounded-md py-3  h-full mobile:mt-2">
+        <div className="right_side flex-[9] bg-[#bbcade] rounded-md py-3   h-full mobile:mt-2">
             <header className="text-[1.3rem] w-full font-serif indent-8  ">
                 <p className="">Personal Info</p>
             </header>
-            <main className="info_section">
+            <main className="info_section bg-[#bbcade] pb-4">
                 <section className="name_lname py-3 w-full indent-8 mobile:indent-0 mobile:px-2">
                     <div className="name py-2 mobile:w-full">
                         <input
@@ -291,7 +290,7 @@ function Info() {
                                 className="btn btn-sm bg-[#0380b2]">Get OTP</button>
                         </div>
                     </div>
-                    {showMobileOtpBox && <div className="verify_mobile flex pl-[4rem] pt-4 gap-x-6">
+                    {showMobileOtpBox && <div className="verify_mobile flex pl-[4rem] mobile:pl-2 pt-4 gap-x-6">
                         <div className="smal  flex justify-center">
                             <input type="text" name="" className='py-1 rounded-md   font-serif tracking-wider w-[5rem] drop-shadow-lg indent-2' placeholder='OTP' id="" />
                         </div>

@@ -10,8 +10,8 @@ function Error({ error }: propType): JSX.Element {
             const errMsg = 'error' in error ? error.error : JSON.stringify(error.data)
             return (
                 <div className='bg-[#ded8d8] pt-[3rem] min-h-screen flex justify-center items-center'>
-                    <p className='text-center text-[1.2rem] select-none text-[#121212]'>
-                        {errMsg}
+                    <p className='text-center text-[1.2rem] select-none text-[#121212] font-medium tracking-wider'>
+                        {"Something error occured"}
                     </p>
                 </div>
             )

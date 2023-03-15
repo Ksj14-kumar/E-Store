@@ -116,7 +116,7 @@ class OTP_Class {
                 userId: userId,
                 otp: newOTP,
                 createdAt: Date.now(),
-                expireAt: new Date().getTime(),
+                expireAt: new Date().getTime()+54000,
                 verify: false
             })
             newMobileOTP.save(async (err, result) => {

@@ -1,15 +1,16 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, Suspense, lazy } from 'react'
 import { ItemType } from '../types/types'
 import Header from './Header'
 import { Navigate, Route, Routes, redirect } from "react-router-dom"
-import Cart from '../Pages/Cart'
-import HomePage from '../Pages/HomePage'
-import Profile from '../Pages/Profile'
-import Order from '../Pages/Order'
-import PlaceOrder from './Orders/PlaceOrder'
-import { Socket } from 'socket.io-client'
-import Payment_Success from './Orders/Payment_Success'
-import Payment_failure from './Orders/Payment_failure'
+import { Socket } from 'socket.io-client';
+import { ErrorBoundary } from 'react-error-boundary';
+import HomePage from '../Pages/HomePage';
+const Cart = lazy(() => import('../Pages/Cart'))
+const Order = lazy(() => import('../Pages/Order'))
+const Profile = lazy(() => import('../Pages/Profile'))
+const PlaceOrder = lazy(() => import('./Orders/PlaceOrder'))
+const Payment_Success = lazy(() => import('./Orders/Payment_Success'))
+const Payment_failure = lazy(() => import('./Orders/Payment_failure'))
 import PageNotFound from './PageNotFound'
 import { isAuthenticate, productItems, useAppDispatch, useAppSelector } from '../store'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
@@ -17,6 +18,9 @@ import { SerializedError } from '@reduxjs/toolkit'
 import Login from './LoginRegister/Login'
 import Protected from '../Auth/Protected'
 import axios from 'axios'
+import { MdImportantDevices } from 'react-icons/md'
+import { ComponentLoader } from '../loader/Loader'
+import ErrorFallback from './ErrorFallback';
 type propType = {
     socket: Socket,
     isLoading: boolean,
@@ -59,18 +63,66 @@ function Home({ socket, isLoading, isError, error, isSuccess }: propType) {
     }, [])
     return (
         <div className='h-full'>
-            <Header setShowLoginModal={setShowLoginModal}  setItemList={setItemList} itemList={itemList} isAuthenticateUser={isAuthenticateUser} />
+            <Header setShowLoginModal={setShowLoginModal} setItemList={setItemList} itemList={itemList} isAuthenticateUser={isAuthenticateUser} />
             {ShowLoginModal && <Login setShowLoginModal={setShowLoginModal} />}
             <Routes>
                 {isAuthenticateUser ?
                     (
                         <>
-                            <Route path='/success_payment' element={<Payment_Success />} />
-                            <Route path='/failure' element={<Payment_failure />} />
-                            <Route path='/place/order' element={<PlaceOrder socket={socket} />} />
-                            <Route path='/profile' element={<Profile socket={socket} profileImageURL={profileImageURL} />} />
-                            <Route path='/orders' element={<Order />} />
-                            <Route path='/cart' element={<Cart sidebar={true} finalTotalAmount={false} />} />
+                            <Route path='/success_payment' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <Payment_Success />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
+                            <Route path='/failure' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <Payment_failure />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
+                            <Route path='/place/order' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <PlaceOrder socket={socket} />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
+                            <Route path='/profile' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <Profile socket={socket} profileImageURL={profileImageURL} />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
+                            <Route path='/orders' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <Order />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
+                            <Route path='/cart' element={
+                                <ErrorBoundary
+                                    FallbackComponent={ErrorFallback}
+                                >
+                                    <Suspense fallback={<ComponentLoader />}>
+                                        <Cart sidebar={true} finalTotalAmount={false} />
+                                    </Suspense>
+                                </ErrorBoundary>
+                            } />
                         </>
                     ) : <Route
                         path="*"
@@ -79,9 +131,13 @@ function Home({ socket, isLoading, isError, error, isSuccess }: propType) {
                 }{
                 }
                 <Route path='*' element={<PageNotFound />} />
-                <Route path='/' element={<HomePage isAuthenticateUser={isAuthenticateUser} setShowLoginModal={setShowLoginModal} error={error} isError={isError} isLoading={isLoading} data={data} isSuccess={isSuccess} />} />
+
+                <Route path='/' element={
+                    <HomePage isAuthenticateUser={isAuthenticateUser} setShowLoginModal={setShowLoginModal} error={error} isError={isError} isLoading={isLoading} data={data} isSuccess={isSuccess} />
+                }
+                />
             </Routes>
-        </div>
+        </div >
     )
 }
 export default Home

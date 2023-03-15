@@ -1,6 +1,8 @@
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const client = require('twilio')(accountSid, authToken,{
+    lazyLoading:true
+});
 module.exports.Sms = async (mobile, otp) => {
     try {
         const res = await client.messages.create({
