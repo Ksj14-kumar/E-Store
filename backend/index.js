@@ -10,10 +10,11 @@ const OTP_route = require("./routers/OTP_Router")
 const allAdress = require("./routers/addresses")
 const Orders = require("./routers/Order")
 const stripe = require("./routers/stripe")
-const loginVia= require("./routers/Other_login_router")
+const loginVia = require("./routers/Other_login_router")
 const staticfiles = require("./routers/static_files")
 const expressSession = require("express-session")
 const server = require("http").createServer(app)
+module.exports = { server }
 const passport = require("passport")
 const MongoStore = require("connect-mongo")
 const cookieParser = require("cookie-parser")
@@ -22,10 +23,10 @@ const path = require("path")
 const utl = require("util")
 const fs = require("fs")
 const morgan = require("morgan")
-require("./Config/dbConnection")
 const bodyParser = require("body-parser")
 const { ErrorMiddleware } = require("./middleware/ErrorMiddleware")
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+require("./Config/dbConnection")
 const expressSessionMiddleware = expressSession({
     secret: process.env.session_secret,
     resave: true,
@@ -49,8 +50,8 @@ app.use(helmet.contentSecurityPolicy({
 }))
 app.use(morgan("combined", { stream: accessLogStream }))
 app.use(express.static("view"))
-app.use("/api/v1/stripe/webhook", express.raw({type: "*/*"}))
-app.use("/api/v1/stripe/webhook",bodyParser.raw({type: "*/*"}))
+app.use("/api/v1/stripe/webhook", express.raw({ type: "*/*" }))
+app.use("/api/v1/stripe/webhook", bodyParser.raw({ type: "*/*" }))
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ limit: "200mb", extended: true }))
 app.use(bodyParser.json({ limit: "10mb" }))
@@ -83,6 +84,7 @@ console.log = function (d) {
     process.stdout.write(utl.format(d) + "\n")
 }
 app.use(ErrorMiddleware)
+// TODO:mark with once
 mongoose.connection.once("open", (err) => {
     server.listen(port, (err) => {
         if (err) {

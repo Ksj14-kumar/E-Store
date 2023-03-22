@@ -1,10 +1,10 @@
 function Skelton() {
     return (
         <div className='w-full bg-[#d0cccc] flex  justify-center gap-2 py-3 min-h-full px-2 flex-wrap'>
-            {[1, 2, 4, 5,5,6,7,7].map((item) => {
+            {[1, 2, 4, 5,6,7,8,9].map((item) => {
                 return (
                     <>
-                        <div className="card w-64 mobile:w-full bg-base-100 shadow-xl px-2 pb-2 py-2">
+                        <div key={item} className="card w-64 mobile:w-full bg-base-100 shadow-xl px-2 pb-2 py-2">
                             <div className="shadow rounded-md h-[16rem] w-full animate-pulse bg-[#c0baba] ">
                             </div>
                             <div className="card-body bg-[#f2efef] rounded-md flex justify-center">

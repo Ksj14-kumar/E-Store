@@ -2,6 +2,7 @@ const { isValidNum } = require("../Services/NumberValid")
 const Address = require("../db/Address_Schema")
 class AddressClass {
     async addAddress(req, res) {
+        console.log(req.body)
         try {
             const { name, pincode, locality, address, city, state, mobile, userId } = req.body
             if (!name || !pincode || !locality || !address || !city || !state || !mobile || !userId) {
@@ -81,4 +82,4 @@ class AddressClass {
         }
     }
 }
-module.exports= new AddressClass()
+module.exports = new AddressClass()
