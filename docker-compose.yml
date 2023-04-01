@@ -1,0 +1,51 @@
+version: '1.0.0'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build: 
+      dockerfile: Dockerfile.dev
+      context: './nginx'
+    ports:
+      - "3050:80"
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: './backend'
+    volumes:
+      - /app/node_modules
+      - ./server:/app   
+    environment:
+      - URI_DB= 
+      - PORT=5100
+      - NUM_VERIFY_API_KEY=
+      - SENDER_MAIL=
+      - SENDER_MAIL_PASSWORD=
+      - Mobile_Num_for_twilio=
+      - TWILIO_SID=
+      - TWILIO_TOKEN=
+      - BACKEND_DOMAIN=http://localhost:5100 
+      - STRIPE_SECRET=
+      - UI_URL=http://localhost:5173
+      - STRIPE_END_POINT_SECRET=
+      - session_secret=
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_CLIENT_SECRET=
+
+  client:
+    stdin_open: true
+    build: 
+      dockerfile: Dockerfile.dev
+      context: './frontend'
+    volumes:
+      - /app/node_modules
+      - ./server:/app   
