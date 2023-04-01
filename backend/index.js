@@ -87,6 +87,7 @@ app.use(ErrorMiddleware)
 // TODO:mark with once
 mongoose.connection.once("open", (err) => {
     server.listen(port, (err) => {
+        console.log(port)
         if (err) {
             console.log("server is not start", port)
         }

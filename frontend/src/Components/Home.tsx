@@ -39,7 +39,7 @@ function Home({ socket, isLoading, isError, error, isSuccess }: propType) {
         (async function () {
             try {
                 if (isAuth.image?.endsWith(".png")) {
-                    const res = await axios.get(process.env.BACKEND_URL + "/api/v1/static/profile", {
+                    const res = await axios.get("/api/v1/static/profile", {
                         responseType: "blob"
                     })
                     const reader = new FileReader()

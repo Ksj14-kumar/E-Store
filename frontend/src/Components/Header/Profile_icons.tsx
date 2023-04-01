@@ -14,7 +14,7 @@ function Profile_icons({ setShowRightSideBar, showRightSideBar, isHaveImage }: p
                     }}
                 >
                     {isHaveImage !== null && (isHaveImage.endsWith(".png") ? (
-                        <img crossOrigin="anonymous" src={process.env.BACKEND_URL + "/api/v1/static/profile"} />
+                        <img crossOrigin="anonymous" src={"/api/v1/static/profile"} />
                     ) : (
                         <img crossOrigin="anonymous" src={isHaveImage} />
                     ))

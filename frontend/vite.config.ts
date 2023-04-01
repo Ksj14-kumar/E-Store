@@ -7,7 +7,18 @@ export default defineConfig({
   plugins: [react()],
   define: {
     "process.env": {
-      BACKEND_URL: "https://e-store-m5zq.onrender.com"
+      BACKEND_URL: "http://localhost:5100"
     }
-  }
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:5100",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      }
+    },
+    port: 5173
+  },
 })
