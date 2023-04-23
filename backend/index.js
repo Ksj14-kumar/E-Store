@@ -25,7 +25,7 @@ const fs = require("fs")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const { ErrorMiddleware } = require("./middleware/ErrorMiddleware")
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'accessLogger.log'), { flags: 'a' })
 require("./Config/dbConnection")
 const expressSessionMiddleware = expressSession({
     secret: process.env.session_secret,
