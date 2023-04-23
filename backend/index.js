@@ -25,7 +25,7 @@ const fs = require("fs")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const { ErrorMiddleware } = require("./middleware/ErrorMiddleware")
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'accessLogger.log'), { flags: 'a' })
+// var accessLogStream = fs.createWriteStream(path.join(__dirname, 'accessLogger.log'), { flags: 'a' })
 require("./Config/dbConnection")
 const expressSessionMiddleware = expressSession({
     secret: process.env.session_secret,
@@ -48,7 +48,7 @@ app.use(helmet.contentSecurityPolicy({
         "img-src": ["'self'", "https: data:"]
     }
 }))
-app.use(morgan("combined", { stream: accessLogStream }))
+// app.use(morgan("combined", { stream: accessLogStream }))
 app.use(express.static("view"))
 app.use("/api/v1/stripe/webhook", express.raw({ type: "*/*" }))
 app.use("/api/v1/stripe/webhook", bodyParser.raw({ type: "*/*" }))
