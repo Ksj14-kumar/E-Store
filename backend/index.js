@@ -76,12 +76,13 @@ app.use("/api/v1/static", staticfiles)
 app.use("/api/v1/orders", Orders)
 app.use("/api/v1", loginVia)
 require("./Services/Socket.connection").Socket(server, expressSessionMiddleware, helmet, morgan)
-// app.get("*", (req, res) => {
-//     return res.sendFile(path.join(__dirname, "/view/index.html"))
-// })
-app.get("/",(req, res)=>{
-    return res.send("<h1>welcome to store server</h1>")
+app.get("*", (req, res) => {
+    console.log("heii")
+    return res.sendFile(path.join(__dirname, "/view/index.html"))
 })
+// app.get("/",(req, res)=>{
+//     return res.send("<h1>welcome to store server</h1>")
+// })
 console.log = function (d) {
     fs.createWriteStream(__dirname + "/log.log", { flags: "a" }).write(utl.format(d) + "\n")
     process.stdout.write(utl.format(d) + "\n")
